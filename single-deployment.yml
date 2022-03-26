@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-deploy
+spec:
+  replicas: 1
+  selector:
+   matchLabels:
+     env: redis
+
+  template:
+   metadata:
+     name: "redispod"
+     labels:
+       env: redis
+   spec:
+     volumes:
+     - name: pvc-5e5603a9-d3bf-4f99-97b0-97a9d40988ae
+       persistentVolumeClaim:
+         claimName: mypvc
+     containers:
+     - name: "redisc1"
+       image: redis
+       volumeMounts:
+        - mountPath: /data
+          name:  pvc-5e5603a9-d3bf-4f99-97b0-97a9d40988ae
+
+
